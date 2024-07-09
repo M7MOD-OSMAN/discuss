@@ -1,19 +1,22 @@
-'use client'
-import {
-  Button,
-  Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Textarea,
-} from '@nextui-org/react'
-import * as actions from '@/actions'
-import { useFormState } from 'react-dom'
+'use client';
 
-const TopicCreateForm = () => {
+import { useFormState } from 'react-dom';
+import {
+  Input,
+  Button,
+  Textarea,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@nextui-org/react';
+import * as actions from '@/actions';
+import FormButton from '@/components/common/form-button';
+
+export default function TopicCreateForm() {
   const [formState, action] = useFormState(actions.createTopic, {
     errors: {},
-  })
+  });
+
   return (
     <Popover placement="left">
       <PopoverTrigger>
@@ -22,37 +25,35 @@ const TopicCreateForm = () => {
       <PopoverContent>
         <form action={action}>
           <div className="flex flex-col gap-4 p-4 w-80">
-            <h3 className="text-lg">Create s Topic</h3>
+            <h3 className="text-lg">Create a Topic</h3>
             <Input
-              label="Name"
               name="name"
-              isRequired
-              placeholder="Name"
+              label="Name"
               labelPlacement="outside"
+              placeholder="Name"
               isInvalid={!!formState.errors.name}
               errorMessage={formState.errors.name?.join(', ')}
             />
+
             <Textarea
-              placeholder="Describe your topic"
               name="description"
-              labelPlacement="outside"
               label="Description"
-              isRequired
+              labelPlacement="outside"
+              placeholder="Describe your topic"
               isInvalid={!!formState.errors.description}
               errorMessage={formState.errors.description?.join(', ')}
             />
-            sss
-            {formState.errors._form && (
+
+            {formState.errors._form ? (
               <div className="rounded p-2 bg-red-200 border border-red-400">
                 {formState.errors._form?.join(', ')}
               </div>
-            )}
-            <Button type="submit">Submit</Button>
+            ) : null}
+
+            <FormButton>Save</FormButton>
           </div>
         </form>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
-
-export default TopicCreateForm
